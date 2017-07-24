@@ -1,12 +1,13 @@
-响应式用户交互组件库UI（[demo(稳定版)](http://bh-lay.com/demo/lab/UI/demo.html)、[demo（最新版）](http://htmlpreview.github.io/?https://github.com/bh-lay/UI/blob/master/demo.html)）
+响应式用户交互组件库UI
 ======
+## demo:[最新版](http://bh-lay.github.io/UI/)
+## 下载：只需要一个文件，多神奇 [dialog.js](src/dialog.js)
+# 一、简介
 
-#一、简介
-
-##1.1、UI是什么?
+## 1.1、UI是什么?
 UI是前端公用的视觉交互（user interface 、 user interaction）类公用组建，用于和用户间的对话及动态界面展示。
 
-##1.2、UI目前有哪儿些内容？
+## 1.2、UI目前有哪儿些内容？
 
 * 目前有虚拟弹层、弹框、提示信息、确认对话、列表选择等功能
 * 支持对象化事件的调用
@@ -14,17 +15,17 @@ UI是前端公用的视觉交互（user interface 、 user interaction）类公�
 * 支持`自定义位置`，方便控制对象在页面中的呈现
 * 对象被注销有`回调支持`，方便确认对象状态
 * 不依赖任何库，随拿随用
-* 动画引擎兼容CSS3和JS
+* 动画使用CSS3实现，IE无动画效果（策略问题）
 
-##1.3、问题反馈
+## 1.3、问题反馈
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
-* 邮件：bh-lay#126.com, 把#换成@
+* 邮件：bh-lay#126.com
 * github: [http://github.com/bh-lay](http://github.com/bh-lay)
 * weibo: [@剧中人](http://weibo.com/bhlay)
 
 
-#二、如何使用
+# 二、如何使用
 
 ## 2.0 基本配置
 ### UI.config.gap
@@ -33,7 +34,7 @@ UI是前端公用的视觉交互（user interface 、 user interaction）类公�
 ### UI.config.zIndex
 设置组件在页面中的**z-index**层级
 
-###demo
+### demo
 ```javascript
 //设置边界
 //top right bottom left
@@ -49,23 +50,24 @@ UI.config.zIndex(5000);
  * *String* [**param.title**] 弹框标题
  * *String* **param.html** 弹框内容
  * *String* [**param.width**] 弹框宽度
- * *String* [**param.height**] 弹框高度
+ ~~* *String* [**param.height**] 弹框高度（推荐根据内容自适应）~~
  * *String* [**param.top**] 弹框与页面顶部距离
  * *String* [**param.left**] 弹框与页面左侧距离
- * *String* [**param.mask**] 是否显示蒙层（默认不显示）
- * *Function* [**param.closeFn**] 被关闭时的回调
+ * *Boolean* [**param.mask**] 是否显示蒙层（默认不显示）
+ * *Boolean* [**param.easyClose**] 点击空白或按下esc，关闭自己
+ * *Function* [**param.init**] 对象构建完成时的回调（主要是动画）
  * *Object|Function* [**param.confirm**] 使用对话方式（详细定义或只定义回调）
  * *Array* [**param.confirm.btns**] 按钮自定义名称
  * *Function* [**param.confirm.callback**] 确定时的回调方法
 
 ### returns 返回值
  * *Object* **pop** 弹框对象
- * *Object* **pop.dom** 弹框所属DOM
+ * *Object* **pop.node** 弹框所属DOM
  * *Object* **pop.cntDom** 弹框内容部分DOM
- * *Function* **pop.close** 关闭弹框的方法
+ * *Function* **pop.destroy** 关闭弹框的方法
  * *Function* **pop.adapt** 自动调整对象在页面中的位置（用于弹框内容发生变化时）
  
-###demo
+### demo
 ```javascript
 var pop = UI.pop({
   'title' : '我的弹框',
@@ -92,17 +94,17 @@ UI.pop({
 ### param 传入参数
  * *Object* **param** 参数对象
  * *String* **param.text** 提示内容
- * *Function* [**param.closeFn**] 被关闭时的回调
  * *Array* [**param.btns**] 按钮自定义名称
  * *String* [**param.mask**] 是否显示蒙层(默认显示)
  * *Function* [**param.callback**] 确定时的回调方法
+ * *Function* [**param.init**] 对象构建完成时的回调（主要是动画）
 
 ### returns 返回值
  * *Object* **confirm**
- * *Object* **confirm.dom** 弹框所属DOM
- * *Function* **confirm.close** 关闭弹框的方法
+ * *Object* **confirm.node** 弹框所属DOM
+ * *Function* **confirm.destroy** 关闭弹框的方法
 
-###demo
+### demo
 ```javascript
 UI.confirm({
   'text' : '请我吃饭吧！',
@@ -114,30 +116,8 @@ UI.confirm({
 ```
 
 ## 2.3、 UI.plane 虚拟弹层
-没有样式，页面中只能同时存在一个plane实例化后的对象，点击自己以外的DOM，就会关掉自己，生命体征较弱的屌丝。
-### param 传入参数
- * *Object* **param** 参数对象
- * *String* **param.html** 弹层内容
- * *Number* [**param.width**] 宽度(默认为240px)
- * *Number* [**param.height**] 高度
- * *Number* [**param.top**]
- * *Number* [**param.left**]
- * *Function* [**param.closeFn**] 被关闭时的回调
+没有样式，页面中只能同时存在一个plane实例化后的对象，点击自己以外的DOM，就会关掉自己，生命体征较弱的屌丝
 
-### returns 返回值 
- * *Object* **plane** 弹层对象
- * *Object* **plane.dom**
- * *Function* **plane.closeFn**
-
-###demo
-```javascript
-    UI.plane({
-        'top' : 100,
-        'left' : 120,
-        'width' : 200,
-        'html' : '<div>....</div>'
-    });
-```
 ## 2.4、UI.select 选择组件
 展示一组待选项，供用户选择，移动端样式仿IOS原生ActionSheet组件（web版样式尚未完成）
 
@@ -149,12 +129,13 @@ UI.confirm({
  * *Object* [**param**] 参数对象
  * *String* [**param.title**] 标题
  * *String* [**param.intro**] 提示文字
+ * *Function* [**param.init**] 对象构建完成时的回调（主要是动画）
 
 ### returns 返回值
  * *Object* **select** select对象
- * *Object* **select.dom** select所属DOM
+ * *Object* **select.node** select所属DOM
 
-###demo
+### demo
 ```javascript
 UI.select([
 	['劈脸呼你',function(){
@@ -178,12 +159,12 @@ UI.select([
 
 ### returns 返回值
  * *Object* **prompt**
- * *Object* **prompt.dom** prompt所属DOM
+ * *Object* **prompt.node** prompt所属DOM
  * *Function* **prompt.tips** 为prompt设置内容
  接收text 和 time两个参数，关闭时间处理同UI.prompt主方法
- * *Function* **prompt.close** 关闭prompt
+ * *Function* **prompt.destroy** 关闭prompt
 
-###demo
+### demo
 ```javascript
 //默认时间
     UI.prompt('操作失败');
@@ -194,7 +175,7 @@ UI.select([
     a.tips('发送成功'，1200);
     
     var b = UI.prompt('请等待……',0);
-    b.close();
+    b.destroy();
 ```
 ## 2.6、UI.cover 全屏浮层
 覆盖整个页面的浮层，目前对关闭的设计有点生硬，欢迎提出宝贵意见。
@@ -202,15 +183,14 @@ UI.select([
 ### param 传入参数
  * *Object* **param** 参数对象
  * *String* **param.html** 弹层内容
- * *Function* [**param.closeFn**] 被关闭时的回调
+ * *Function* [**param.init**] 对象构建完成时的回调（主要是动画）
 
 ### returns 返回值
  * *Object* **cover** cover对象
- * *Object* **cover.dom** cover所属DOM
- * *Object* **cover.closeDom** 关闭按钮DOM
- * *Function* **cover.close** 关闭cover
+ * *Object* **cover.node** cover所属DOM
+ * *Function* **cover.destroy** 关闭cover
 
-###demo
+### demo
 ```javascript
 UI.cover({
     'html' : '<div>....</div>'
@@ -224,14 +204,15 @@ UI.cover({
  * *String* **text** 引导信息
  * *Function* [**callback**] 点击确定时的回调
    默认会在掉用后关掉弹层，方法内return false会阻止关闭动作
+ * *Function* [**param.init**] 对象构建完成时的回调（主要是动画）
 
 ### returns 返回值
  * *Object* **ask** ask对象
- * *Object* **ask.dom** ask所属DOM
+ * *Object* **ask.node** ask所属DOM
  * *Function* **ask.setValue** 设置内容
- * *Function* **ask.close** 关闭ask对象
+ * *Function* **ask.destroy** 关闭ask对象
 
-###demo
+### demo
 ```javascript
 UI.ask('你今年多大了？',function(year){
 	if(year == +year){
